@@ -99,3 +99,18 @@ async def notify_task_status_changed(
 
 
 async def notify_task_completed(
+    bot: Bot,
+    db: AsyncSession,
+    task: Task,
+    completed_by_name: str,
+    project_id: int,
+):
+    """Vazifa bajarilganda loyiha a'zolariga xabar yuboradi"""
+    message = (
+        f"✅ <b>Vazifa bajarildi!</b>\n\n"
+        f"📝 Vazifa: <b>{task.title}</b>\n"
+        f"👤 Bajardi: <b>{completed_by_name}</b>\n\n"
+        f"🎉 Tabriklaymiz!"
+    )
+
+    await notify_project_members(bot, db, project_id, message)
