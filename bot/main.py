@@ -14,6 +14,7 @@ from bot.handlers.task import router as task_router
 from bot.handlers.assign import router as assign_router
 from bot.handlers.ai_tasks import router as ai_tasks_router
 from bot.handlers.stats import router as stats_router
+from bot.handlers.notifications import router as notifications_router
 
 logger = setup_logger()
 
@@ -38,6 +39,7 @@ async def main():
 
     # Routerlarni ulash
     dp.include_router(start_router)
+    dp.include_router(notifications_router)
     dp.include_router(project_router)
     dp.include_router(task_router)
     dp.include_router(assign_router)
