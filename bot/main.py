@@ -10,6 +10,7 @@ from db.database import create_tables
 from bot.middlewares.db import DbSessionMiddleware
 from bot.handlers.start import router as start_router
 from bot.handlers.project import router as project_router
+from bot.handlers.task import router as task_router
 
 logger = setup_logger()
 
@@ -35,6 +36,7 @@ async def main():
     # Routerlarni ulash
     dp.include_router(start_router)
     dp.include_router(project_router)
+    dp.include_router(task_router)
 
     logger.info("✅ Bot muvaffaqiyatli ishga tushdi!")
 
