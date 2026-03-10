@@ -13,6 +13,7 @@ from bot.handlers.project import router as project_router
 from bot.handlers.task import router as task_router
 from bot.handlers.assign import router as assign_router
 from bot.handlers.ai_tasks import router as ai_tasks_router
+from bot.handlers.stats import router as stats_router
 
 logger = setup_logger()
 
@@ -41,6 +42,7 @@ async def main():
     dp.include_router(task_router)
     dp.include_router(assign_router)
     dp.include_router(ai_tasks_router)
+    dp.include_router(stats_router)
 
     logger.info("✅ Bot muvaffaqiyatli ishga tushdi!")
 
