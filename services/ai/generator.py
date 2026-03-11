@@ -1,17 +1,16 @@
-import anthropic
+from openai import OpenAI
 from core.config import settings
 
 
-client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
 async def generate_tasks(project_idea: str) -> list[str]:
     """
     Loyiha g'oyasi asosida AI yordamida vazifalar generatsiya qiladi.
     """
-    message = client.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=1024,
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "user",
@@ -26,10 +25,10 @@ async def generate_tasks(project_idea: str) -> list[str]:
                 ),
             }
         ],
+        max_tokens=1024,
     )
 
-    # Javobni satrlar ro'yxatiga ajratamiz
-    raw = message.content[0].text
+    raw = response.choices[0].message.content
     tasks = [
         line.strip()
         for line in raw.strip().splitlines()
@@ -42,14 +41,10 @@ async def summarize_project(
     project_name: str,
     tasks: list[str],
 ) -> str:
-    """
-    Loyiha va vazifalar asosida qisqa xulosa yaratadi.
-    """
     tasks_text = "\n".join(f"- {t}" for t in tasks)
 
-    message = client.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=512,
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "user",
@@ -61,6 +56,7 @@ async def summarize_project(
                 ),
             }
         ],
+        max_tokens=512,
     )
 
-    return message.content[0].text.strip()
+    return response.choices[0].message.content.strip()
